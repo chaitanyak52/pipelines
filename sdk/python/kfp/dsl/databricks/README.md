@@ -7,11 +7,11 @@ https://github.com/microsoft/azure-databricks-operator).
 
 These are the supported Ops up to date:
 
-- CreateClusterOp, to create a Databricks cluster in Azure Databricks.
-- DeleteClusterOp, to delete a Databricks cluster from Azure Databricks.
-- CreateJobOp, to create a Spark Job in Azure Databricks.
-- DeleteJobOp, to delete a Spark Job from Azure Databricks.
-- SubmitRunOp, to submit a one-time Job Run in Azure Databricks.
+- CreateClusterOp, to create a Databricks cluster in Databricks.
+- DeleteClusterOp, to delete a Databricks cluster from Databricks.
+- CreateJobOp, to create a Spark Job in Databricks.
+- DeleteJobOp, to delete a Spark Job from Databricks.
+- SubmitRunOp, to submit a one-time Job Run in Databricks.
 
 SubmitRunOp is the most complete of them all, as we can create the Op by using the complete 
 Databricks spec as a Python dictionary or its individual parts as named parameters. It also 
@@ -38,7 +38,7 @@ import kfp.dsl.databricks as databricks
 
 @dsl.pipeline(
     name="DatabricksRun",
-    description="A toy pipeline that computes an approximation to pi with Azure Databricks."
+    description="A toy pipeline that computes an approximation to pi with Databricks."
 )
 def calc_pipeline(run_name="test-run", parameter="10"):
     databricks.SubmitRunOp(

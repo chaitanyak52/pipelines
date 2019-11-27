@@ -1,7 +1,7 @@
 from .._resource_op import ResourceOp
 
 class CreateJobOp(ResourceOp):
-    """Represents an op which will be translated into an Azure Databricks Spark Job creation
+    """Represents an op which will be translated into a Databricks Spark Job creation
     resource template.
 
     Example:
@@ -92,7 +92,7 @@ class CreateJobOp(ResourceOp):
         return self._resource
 
 class DeleteJobOp(ResourceOp):
-    """Represents an op which will be translated into an Azure Databricks Spark Job deletion
+    """Represents an op which will be translated into a Databricks Spark Job deletion
     resource template.
 
     Example:

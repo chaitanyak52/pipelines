@@ -1,7 +1,7 @@
 from .._resource_op import ResourceOp
 
 class CreateClusterOp(ResourceOp):
-    """Represents an op which will be translated into an Azure Databricks Cluster creation resource
+    """Represents an op which will be translated into a Databricks Cluster creation resource
     template.
 
     Example:
@@ -74,7 +74,7 @@ class CreateClusterOp(ResourceOp):
         return self._resource
 
 class DeleteClusterOp(ResourceOp):
-    """Represents an op which will be translated into an Azure Databricks Cluster deletion resource
+    """Represents an op which will be translated into a Databricks Cluster deletion resource
     template.
 
     Example:

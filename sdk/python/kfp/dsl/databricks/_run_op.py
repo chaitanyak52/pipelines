@@ -3,7 +3,7 @@ import json
 from .._resource_op import ResourceOp
 
 class SubmitRunOp(ResourceOp):
-    """Represents an op which will be translated into an Azure Databricks Spark Run submission
+    """Represents an op which will be translated into a Databricks Spark Run submission
     resource template.
 
     Examples:

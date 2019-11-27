@@ -65,3 +65,22 @@ File System](https://docs.microsoft.com/en-us/azure/databricks/data/databricks-f
 
 More sample pipelines can be found in the tests folder of the Databricks DSL: 
 [pipelines/sdk/python/tests/dsl/databricks](../../../tests/dsl/databricks)
+
+## Additional information
+- [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/) 
+- [Azure Databricks documentation](https://docs.microsoft.com/azure/azure-databricks/) 
+- [Azure Databricks Operator for Kubernetes](https://github.com/microsoft/azure-databricks-operator)
+- [Golang SDK for DataBricks REST API 2.0 and Azure DataBricks REST API 2.0](
+    https://github.com/xinsnake/databricks-sdk-golang), used by Azure Databricks Operator.
+- [Databricks REST API 2.0](https://docs.databricks.com/dev-tools/api/latest/index.html)
+- [Azure Databricks REST API 2.0](
+    https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/)
+
+The following articles provide information on the supported spec fields for the supported Databricks
+Ops:  
+- Cluster Ops: [Azure Databricks Cluster API](
+    https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters)
+- Job Ops: [Azure Databricks Jobs API](
+    https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/jobs)
+- Run Ops: [Azure Databricks Jobs API - Runs Submit](
+    https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/jobs#--runs-submit)

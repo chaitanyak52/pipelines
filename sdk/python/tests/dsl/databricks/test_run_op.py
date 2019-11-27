@@ -1,9 +1,8 @@
+import unittest
 from pathlib import Path
-import json
 import kfp
 from kfp.dsl import PipelineParam
 from kfp.dsl.databricks import SubmitRunOp
-import unittest
 
 class TestSubmitRunOp(unittest.TestCase):
 
@@ -22,11 +21,11 @@ class TestSubmitRunOp(unittest.TestCase):
                 "main_class_name": "com.databricks.ComputeModels"
             }
 
-            res = SubmitRunOp(
-                name = "submitrun",
-                new_cluster = new_cluster,
-                libraries = libraries,
-                spark_jar_task = spark_jar_task
+            SubmitRunOp(
+                name="submitrun",
+                new_cluster=new_cluster,
+                libraries=libraries,
+                spark_jar_task=spark_jar_task
             )
 
         self.assertRaises(ValueError, lambda: kfp.compiler.Compiler()._compile(my_pipeline))
@@ -55,14 +54,14 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp(
-                name = "submitrun",
-                run_name = run_name,
-                new_cluster = new_cluster,
-                libraries = libraries,
-                spark_jar_task = spark_jar_task
+                name="submitrun",
+                run_name=run_name,
+                new_cluster=new_cluster,
+                libraries=libraries,
+                spark_jar_task=spark_jar_task
             )
 
-            self.assertRes(res, expected_spec)
+            self.assert_res(res, expected_spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
@@ -88,13 +87,13 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp(
-                name = "submitrun",
-                run_name = run_name,
-                new_cluster = new_cluster,
-                spark_python_task = spark_python_task
+                name="submitrun",
+                run_name=run_name,
+                new_cluster=new_cluster,
+                spark_python_task=spark_python_task
             )
 
-            self.assertRes(res, expected_spec)
+            self.assert_res(res, expected_spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
@@ -122,13 +121,13 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp(
-                name = "submitrun",
-                run_name = run_name,
-                new_cluster = new_cluster,
-                spark_submit_task = spark_submit_task
+                name="submitrun",
+                run_name=run_name,
+                new_cluster=new_cluster,
+                spark_submit_task=spark_submit_task
             )
 
-            self.assertRes(res, expected_spec)
+            self.assert_res(res, expected_spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
@@ -149,14 +148,14 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp(
-                name = "submitrun",
-                run_name = run_name,
-                existing_cluster_id = existing_cluster_id,
-                notebook_task = notebook_task,
-                timeout_seconds = timeout_seconds
+                name="submitrun",
+                run_name=run_name,
+                existing_cluster_id=existing_cluster_id,
+                notebook_task=notebook_task,
+                timeout_seconds=timeout_seconds
             )
 
-            self.assertRes(res, expected_spec)
+            self.assert_res(res, expected_spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
@@ -180,24 +179,24 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp(
-                name = "submitrun",
-                spec = spec
+                name="submitrun",
+                spec=spec
             )
 
-            self.assertRes(res, spec)
+            self.assert_res(res, spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
     def test_databricks_submit_run_with_spec_and_extra_args(self):
         def my_pipeline():
             spark_submit_task = {
-                    "parameters": [
-                        "--class",
-                        "org.apache.spark.examples.SparkPi",
-                        "dbfs:/docs/sparkpi.jar",
-                        "10"
-                    ]
-                }
+                "parameters": [
+                    "--class",
+                    "org.apache.spark.examples.SparkPi",
+                    "dbfs:/docs/sparkpi.jar",
+                    "10"
+                ]
+            }
             spec = {
                 "run_name": "test-run",
                 "new_cluster": {
@@ -230,19 +229,19 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp(
-                name = "submitrun",
-                spec = spec,
-                spark_submit_task = spark_submit_task
+                name="submitrun",
+                spec=spec,
+                spark_submit_task=spark_submit_task
             )
 
-            self.assertRes(res, spec)
+            self.assert_res(res, expected_spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
     def test_databricks_submit_run_with_json_spec(self):
         def my_pipeline():
             run_name = "test-run"
-            _JSON_SPEC = """
+            json_spec = """
             {
                 "new_cluster": {
                     "spark_version":"5.3.x-scala2.11",
@@ -278,12 +277,12 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp.from_json_spec(
-                name = "submitrun",
-                run_name = run_name,
-                json_spec = _JSON_SPEC
+                name="submitrun",
+                run_name=run_name,
+                json_spec=json_spec
             )
 
-            self.assertRes(res, expected_spec)
+            self.assert_res(res, expected_spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
@@ -311,16 +310,16 @@ class TestSubmitRunOp(unittest.TestCase):
             }
 
             res = SubmitRunOp.from_file_name(
-                name = "submitrun",
-                run_name = run_name,
-                file_name = json_spec_file_name
+                name="submitrun",
+                run_name=run_name,
+                file_name=json_spec_file_name
             )
 
-            self.assertRes(res, expected_spec)
+            self.assert_res(res, expected_spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 
-    def assertRes(self, res, expected_spec):
+    def assert_res(self, res, expected_spec):
         self.assertEqual(res.name, "submitrun")
         self.assertEqual(res.resource.action, "create")
         self.assertEqual(
@@ -347,8 +346,10 @@ class TestSubmitRunOp(unittest.TestCase):
             "run_name": PipelineParam(name="run_name", op_name=res.name),
             "life_cycle_state": PipelineParam(name="life_cycle_state", op_name=res.name),
             "result_state": PipelineParam(name="result_state", op_name=res.name),
-            "notebook_output_result": PipelineParam(name="notebook_output_result", op_name=res.name),
-            "notebook_output_truncated": PipelineParam(name="notebook_output_truncated", op_name=res.name),
+            "notebook_output_result": PipelineParam(name="notebook_output_result",
+                                                    op_name=res.name),
+            "notebook_output_truncated": PipelineParam(name="notebook_output_truncated",
+                                                       op_name=res.name),
             "error": PipelineParam(name="error", op_name=res.name),
             "manifest": PipelineParam(name="manifest", op_name=res.name)
         }
@@ -357,10 +358,11 @@ class TestSubmitRunOp(unittest.TestCase):
             res.output,
             PipelineParam(name="name", op_name=res.name)
         )
-        self.assertEqual(res.dependent_names, [])    
+        self.assertEqual(res.dependent_names, [])
         self.assertEqual(res.k8s_resource["kind"], "Run")
         self.assertEqual(res.k8s_resource["metadata"]["name"], "test-run")
         self.assertEqual(res.k8s_resource["spec"], expected_spec)
 
 if __name__ == '__main__':
     unittest.main()
+    

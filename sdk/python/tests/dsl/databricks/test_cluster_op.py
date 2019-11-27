@@ -1,7 +1,7 @@
+import unittest
 import kfp
 from kfp.dsl import PipelineParam
 from kfp.dsl.databricks import CreateClusterOp, DeleteClusterOp
-import unittest
 
 class TestCreateClusterOp(unittest.TestCase):
 
@@ -49,13 +49,12 @@ class TestCreateClusterOp(unittest.TestCase):
                 res.output,
                 PipelineParam(name="name", op_name=res.name)
             )
-            self.assertEqual(res.dependent_names, [])    
+            self.assertEqual(res.dependent_names, [])
             self.assertEqual(res.k8s_resource["kind"], "Dcluster")
             self.assertEqual(res.k8s_resource["metadata"]["name"], "test-cluster")
             self.assertEqual(res.k8s_resource["spec"], spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
-
 
 class TestDeleteClusterOp(unittest.TestCase):
 
@@ -63,8 +62,8 @@ class TestDeleteClusterOp(unittest.TestCase):
         def my_pipeline():
 
             res = DeleteClusterOp(
-                name = "deletecluster",
-                cluster_name = "test-cluster"
+                name="deletecluster",
+                cluster_name="test-cluster"
             )
 
             self.assertEqual(res.name, "deletecluster")
@@ -75,7 +74,7 @@ class TestDeleteClusterOp(unittest.TestCase):
             self.assertEqual(res.attribute_outputs, {})
             self.assertEqual(res.outputs, {})
             self.assertEqual(res.output, None)
-            self.assertEqual(res.dependent_names, [])    
+            self.assertEqual(res.dependent_names, [])
             self.assertEqual(res.k8s_resource["kind"], "Dcluster")
             self.assertEqual(res.k8s_resource["metadata"]["name"], "test-cluster")
 

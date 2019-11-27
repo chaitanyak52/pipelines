@@ -1,38 +1,38 @@
+import unittest
 import kfp
 from kfp.dsl import PipelineParam
 from kfp.dsl.databricks import CreateJobOp, DeleteJobOp
-import unittest
 
 class TestCreateJobOp(unittest.TestCase):
 
     def test_databricks_create_job(self):
         def my_pipeline():
             spec = {
-                    "new_cluster" : {
-                        "spark_version":"5.3.x-scala2.11",
-                        "node_type_id": "Standard_D3_v2",
-                        "num_workers": 2
+                "new_cluster" : {
+                    "spark_version":"5.3.x-scala2.11",
+                    "node_type_id": "Standard_D3_v2",
+                    "num_workers": 2
+                },
+                "libraries" : [
+                    {
+                        "jar": 'dbfs:/my-jar.jar'
                     },
-                    "libraries" : [
-                        {
-                            "jar": 'dbfs:/my-jar.jar'
-                        },
-                        {
-                            "maven": {
-                                "coordinates": 'org.jsoup:jsoup:1.7.2'
-                            }
+                    {
+                        "maven": {
+                            "coordinates": 'org.jsoup:jsoup:1.7.2'
                         }
-                    ],
-                    "timeout_seconds" : 3600,
-                    "max_retries": 1,
-                    "schedule":{
-                        "quartz_cron_expression": "0 15 22 ? * *",
-                        "timezone_id": "America/Los_Angeles",
-                    },
-                    "spark_jar_task": {
-                        "main_class_name": "com.databricks.ComputeModels",
-                    },
-                }
+                    }
+                ],
+                "timeout_seconds" : 3600,
+                "max_retries": 1,
+                "schedule":{
+                    "quartz_cron_expression": "0 15 22 ? * *",
+                    "timezone_id": "America/Los_Angeles",
+                },
+                "spark_jar_task": {
+                    "main_class_name": "com.databricks.ComputeModels",
+                },
+            }
 
             res = CreateJobOp(
                 name="createjob",
@@ -66,13 +66,12 @@ class TestCreateJobOp(unittest.TestCase):
                 res.output,
                 PipelineParam(name="name", op_name=res.name)
             )
-            self.assertEqual(res.dependent_names, [])    
+            self.assertEqual(res.dependent_names, [])
             self.assertEqual(res.k8s_resource["kind"], "Djob")
             self.assertRegex(res.k8s_resource["metadata"]["name"], "^test-job-*")
             self.assertEqual(res.k8s_resource["spec"], spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
-
 
 class TestDeleteJobOp(unittest.TestCase):
 
@@ -80,8 +79,8 @@ class TestDeleteJobOp(unittest.TestCase):
         def my_pipeline():
 
             res = DeleteJobOp(
-                name = "deletejob",
-                job_name = "test-job-1572540532.376594"
+                name="deletejob",
+                job_name="test-job-1572540532.376594"
             )
 
             self.assertEqual(res.name, "deletejob")
@@ -92,7 +91,7 @@ class TestDeleteJobOp(unittest.TestCase):
             self.assertEqual(res.attribute_outputs, {})
             self.assertEqual(res.outputs, {})
             self.assertEqual(res.output, None)
-            self.assertEqual(res.dependent_names, [])    
+            self.assertEqual(res.dependent_names, [])
             self.assertEqual(res.k8s_resource["kind"], "Djob")
             self.assertEqual(res.k8s_resource["metadata"]["name"], "test-job-1572540532.376594")
 

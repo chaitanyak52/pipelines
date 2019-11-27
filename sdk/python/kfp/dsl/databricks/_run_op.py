@@ -2,27 +2,9 @@ import json
 
 from .._resource_op import ResourceOp
 
-# Azure Databricks Operator and Golang SDK for Databricks types:
-#   Run: [type Run struct](https://github.com/microsoft/azure-databricks-operator/blob/master/api/v1alpha1/run_types.go)
-#       spec: [type RunSpec struct](https://github.com/microsoft/azure-databricks-operator/blob/master/api/v1alpha1/run_types.go)
-#       status: [type JobsRunsGetOutputResponse struct](https://github.com/xinsnake/databricks-sdk-golang/blob/master/azure/jobs.go)
-# Databricks Rest API 2.0 Data Structures:
-#   [Jobs API Data Structures](https://docs.databricks.com/dev-tools/api/latest/jobs.html#data-structures) 
-#   [Clusters API Data Structures](https://docs.databricks.com/dev-tools/api/latest/clusters.html#data-structures)
-# Databricks Rest API 2.0 Jobs API:
-#   [Runs Submit](https://docs.databricks.com/dev-tools/api/latest/jobs.html#runs-submit)
-#   [Create and run a JAR job](https://docs.databricks.com/dev-tools/api/latest/examples.html#create-and-run-a-jar-job)
-#   [Create a Python job](https://docs.databricks.com/dev-tools/api/latest/examples.html#create-a-python-job)
-#   [Create a spark-submit job](https://docs.databricks.com/dev-tools/api/latest/examples.html#create-a-spark-submit-job)
-#   [Create and run a spark-submit job for R scripts](https://docs.databricks.com/dev-tools/api/latest/examples.html#create-and-run-a-spark-submit-job-for-r-scripts)
-# Argo:
-#   [Manage Kubernetes Resources from Argo workflows](https://argoproj.github.io/docs/argo/examples/readme.html#kubernetes-resources).
-# Azure Databricks:
-#   Jar Activities: [Transform data by running a Jar activity in Azure Databricks](https://docs.microsoft.com/en-us/azure/data-factory/transform-data-databricks-jar)
-#       [Supported libraries for databricks activities](https://docs.microsoft.com/en-us/azure/data-factory/transform-data-databricks-jar#supported-libraries-for-databricks-activities)
-
 class SubmitRunOp(ResourceOp):
-    """Represents an op which will be translated into an Azure Databricks Spark Run submission resource template.
+    """Represents an op which will be translated into an Azure Databricks Spark Run submission
+    resource template.
 
     Examples:
 
@@ -97,39 +79,41 @@ class SubmitRunOp(ResourceOp):
     """
 
     def __init__(self,
-        name: str = None,
-        k8s_name: str = None,
-        run_name: str = None,
-        spec: {} = None,
-        existing_cluster_id: str = None,
-        new_cluster: {} = None,
-        libraries: {} = None,
-        spark_jar_task: {} = None,
-        spark_python_task: {} = None,
-        spark_submit_task: {} = None,
-        notebook_task: {} = None,
-        timeout_seconds: int = None):
+                 name: str = None,
+                 k8s_name: str = None,
+                 run_name: str = None,
+                 spec: {}=None,
+                 existing_cluster_id: str = None,
+                 new_cluster: {}=None,
+                 libraries: {}=None,
+                 spark_jar_task: {}=None,
+                 spark_python_task: {}=None,
+                 spark_submit_task: {}=None,
+                 notebook_task: {}=None,
+                 timeout_seconds: int = None):
         """Create a new instance of SubmitRunOp.
 
         Args:
 
-            name: The name of the pipeline op. 
+            name: The name of the pipeline op.
                 It does not have to be unique within a pipeline
-                because the pipeline will generates a unique new name in case of conflicts.
+                because the pipeline will generate a new unique name in case of a conflict.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.
                 If no k8s_name is provided, run_name will be used as the resource name.
-                This name is DNS-1123 subdomain name and must consist of lower case alphanumeric 
+                This name is DNS-1123 subdomain name and must consist of lower case alphanumeric
                 characters, '-' or '.', and must start and end with an alphanumeric character.
             run_name: A name for the Run.
             spec: Full specification of the Spark run to submit.
-            existing_cluster_id: The ID of an existing cluster that will be used for all runs of this job.
+            existing_cluster_id: The ID of an existing cluster that will be used for all runs of
+                this job.
             new_cluster: A description of a cluster that will be created for each run
-            libraries: An optional list of libraries to be installed on the cluster that will execute the job.
+            libraries: An optional list of libraries to be installed on the cluster that will
+                execute the job.
             spark_jar_task: Indicates that this job should run a JAR.
             spark_python_task: Indicates that this job should run a Python file.
             spark_submit_task: Indicates that this job should run spark submit script.
             notebook_task: Indicates that this job should run a notebook.
-            timeout_seconds: An optional timeout applied to each run of this job. 
+            timeout_seconds: An optional timeout applied to each run of this job.
                 The default behavior is to have no timeout.
 
         Raises:
@@ -140,33 +124,43 @@ class SubmitRunOp(ResourceOp):
         if not spec:
             spec = {}
 
-        if run_name: spec["run_name"] = run_name
-        if new_cluster: spec["new_cluster"] = new_cluster
-        if existing_cluster_id: spec["existing_cluster_id"] = existing_cluster_id
-        if spark_jar_task: spec["spark_jar_task"] = spark_jar_task
-        if spark_python_task: spec["spark_python_task"] = spark_python_task
-        if spark_submit_task: spec["spark_submit_task"] = spark_submit_task
-        if notebook_task: spec["notebook_task"] = notebook_task
-        if libraries: spec["libraries"] = libraries
-        if timeout_seconds: spec["timeout_seconds"] = timeout_seconds
+        if run_name:
+            spec["run_name"] = run_name
+        if new_cluster:
+            spec["new_cluster"] = new_cluster
+        if existing_cluster_id:
+            spec["existing_cluster_id"] = existing_cluster_id
+        if spark_jar_task:
+            spec["spark_jar_task"] = spark_jar_task
+        if spark_python_task:
+            spec["spark_python_task"] = spark_python_task
+        if spark_submit_task:
+            spec["spark_submit_task"] = spark_submit_task
+        if notebook_task:
+            spec["notebook_task"] = notebook_task
+        if libraries:
+            spec["libraries"] = libraries
+        if timeout_seconds:
+            spec["timeout_seconds"] = timeout_seconds
 
-        if not k8s_name and "run_name" in spec: 
+        if not k8s_name and "run_name" in spec:
             k8s_name = spec["run_name"]
         elif not k8s_name:
             raise ValueError("You need to provide a k8s_name or a run_name.")
-            
+
         super().__init__(
-            k8s_resource = {
+            k8s_resource={
                 "apiVersion": "databricks.microsoft.com/v1alpha1",
                 "kind": "Run",
                 "metadata": {
                     "name": k8s_name
                 },
                 "spec": spec
-            }, 
-            action = "create", 
-            success_condition = "status.metadata.state.life_cycle_state in (TERMINATED, SKIPPED, INTERNAL_ERROR)",
-            attribute_outputs = {
+            },
+            action="create",
+            success_condition=("status.metadata.state.life_cycle_state in "
+                               "(TERMINATED, SKIPPED, INTERNAL_ERROR)"),
+            attribute_outputs={
                 "name": "job-{.status.metadata.job_id}-run-{.status.metadata.number_in_job}",
                 "run_id": "{.status.metadata.run_id}",
                 "run_name": "{.status.metadata.run_name}",
@@ -176,21 +170,19 @@ class SubmitRunOp(ResourceOp):
                 "notebook_output_truncated": "{.status.notebook_output.truncated}",
                 "error": "{.status.error}"
             },
-            name = name)
+            name=name)
 
     @classmethod
-    def from_json_spec(
-        cls,
-        name: str = None,
-        k8s_name: str = None,
-        run_name: str = None,
-        json_spec: str = None
-    ):
+    def from_json_spec(cls,
+                       name: str = None,
+                       k8s_name: str = None,
+                       run_name: str = None,
+                       json_spec: str = None):
         """Create a new instance of SubmitRunOp from a json specification.
 
         Args:
 
-            name: The name of the op. 
+            name: The name of the op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generates a unique new name in case of conflicts.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.
@@ -200,35 +192,34 @@ class SubmitRunOp(ResourceOp):
         """
 
         spec = json.loads(json_spec)
-        return cls(name = name, k8s_name = k8s_name, run_name = run_name, spec = spec)
+        return cls(name=name, k8s_name=k8s_name, run_name=run_name, spec=spec)
 
     @classmethod
-    def from_file_name(
-        cls,
-        name: str = None,
-        k8s_name: str = None,
-        run_name: str = None,
-        file_name: str = None
-    ):
+    def from_file_name(cls,
+                       name: str = None,
+                       k8s_name: str = None,
+                       run_name: str = None,
+                       file_name: str = None):
         """Create a new instance of SubmitRunOp from a json specification.
 
         Args:
 
-            name: The name of the op. 
+            name: The name of the op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generates a unique new name in case of conflicts.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.
                 If no k8s_name is provided, run_name will be used as the resource name.
             run_name: A name for the Run.
-            json_spec_file_name: name of the file containing the full specification of the Spark run to submit in json format.
-        
+            json_spec_file_name: name of the file containing the full specification of the Spark run
+                to submit in json format.
+
         Raises:
-        
+
             ValueError: if the file name doesn't exist.
         """
-        
+
         spec = json.loads(open(file_name).read())
-        return cls(name = name, k8s_name = k8s_name, run_name = run_name, spec = spec)
+        return cls(name=name, k8s_name=k8s_name, run_name=run_name, spec=spec)
 
     @property
     def resource(self):

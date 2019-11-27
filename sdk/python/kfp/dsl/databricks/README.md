@@ -13,11 +13,10 @@ These are the supported Ops up to date:
 - DeleteJobOp, to delete a Spark Job from Databricks.
 - SubmitRunOp, to submit a one-time Job Run in Databricks.
 
-SubmitRunOp is the most complete of them all, as we can create the Op by using the complete 
-Databricks spec as a Python dictionary or its individual parts as named parameters. It also 
+We can create the Ops by using the complete Databricks spec as a Python dictionary or its individual
+parts as named parameters (not supported by Job Ops yet). SubmitRunOp also 
 provides 2 helper methods to create the Op by using a json string containing the spec or a file name
-containing the spec in json format. The rest of the Ops only support passing the complete Databricks
-spec as a Python dictionary for now.
+containing the spec in json format.
 
 ## Setup
 

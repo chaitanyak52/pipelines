@@ -21,7 +21,7 @@ class CreateClusterOp(ResourceOp):
             }
         )
 
-        databricks.SubmitRunOp(
+        databricks.CreateClusterOp(
             name="createcluster",
             cluster_name="test-cluster",
             spark_version="5.3.x-scala2.11",
@@ -32,7 +32,7 @@ class CreateClusterOp(ResourceOp):
             num_workers=2
         )
 
-        databricks.SubmitRunOp(
+        databricks.CreateClusterOp(
             name="createcluster",
             cluster_name="test-cluster",
             spark_version="5.3.x-scala2.11",

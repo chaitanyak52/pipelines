@@ -8,24 +8,20 @@ class TestSubmitRunOp(unittest.TestCase):
 
     def test_databricks_submit_run_without_k8s_or_run_name(self):
         def my_pipeline():
-            new_cluster = {
-                "spark_version":"5.3.x-scala2.11",
-                "node_type_id": "Standard_D3_v2",
-                "num_workers": 2
-            }
-            libraries = [
-                {"jar": "dbfs:/my-jar.jar"},
-                {"maven": {"coordinates": "org.jsoup:jsoup:1.7.2"}}
-            ]
-            spark_jar_task = {
-                "main_class_name": "com.databricks.ComputeModels"
-            }
-
             SubmitRunOp(
                 name="submitrun",
-                new_cluster=new_cluster,
-                libraries=libraries,
-                spark_jar_task=spark_jar_task
+                new_cluster={
+                    "spark_version":"5.3.x-scala2.11",
+                    "node_type_id": "Standard_D3_v2",
+                    "num_workers": 2
+                },
+                libraries=[
+                    {"jar": "dbfs:/my-jar.jar"},
+                    {"maven": {"coordinates": "org.jsoup:jsoup:1.7.2"}}
+                ],
+                spark_jar_task={
+                    "main_class_name": "com.databricks.ComputeModels"
+                }
             )
 
         self.assertRaises(ValueError, lambda: kfp.compiler.Compiler()._compile(my_pipeline))

@@ -11,9 +11,9 @@ class SubmitRunOp(ResourceOp):
         import kfp.dsl.databricks as databricks
 
         databricks.SubmitRunOp(
-            name = "submitrun",
-            run_name = "test-run",
-            spec = {
+            name="submitrun",
+            run_name="test-run",
+            spec={
                 "new_cluster": {
                     "spark_version":"5.3.x-scala2.11",
                     "node_type_id": "Standard_D3_v2",
@@ -31,14 +31,14 @@ class SubmitRunOp(ResourceOp):
         )
 
         databricks.SubmitRunOp(
-            name = "submitrun",
-            run_name = "test-run",
-            new_cluster = {
+            name="submitrun",
+            run_name="test-run",
+            new_cluster={
                 "spark_version":"5.3.x-scala2.11",
                 "node_type_id": "Standard_D3_v2",
                 "num_workers": 2
             },
-            libraries = [
+            libraries=[
                 {
                     "jar": "dbfs:/my-jar.jar"
                 },
@@ -48,16 +48,16 @@ class SubmitRunOp(ResourceOp):
                     }
                 }
             ],
-            spark_jar_task = {
+            spark_jar_task={
                 "main_class_name": "com.databricks.ComputeModels"
             }
         )
 
         databricks.SubmitRunOp(
-            name = "submitrun",
-            run_name = "test-run",
-            existing_cluster_id = "cluster-id",
-            spark_python_task = {
+            name="submitrun",
+            run_name="test-run",
+            existing_cluster_id="cluster-id",
+            spark_python_task={
                 "python_file": "dbfs:/docs/pi.py",
                 "parameters": [
                     "10"
@@ -66,15 +66,15 @@ class SubmitRunOp(ResourceOp):
         )
 
         databricks.SubmitRunOp.from_json_spec(
-            name = "submitrun",
-            run_name = "test-run",
-            json_spec = _JSON_SPEC
+            name="submitrun",
+            run_name="test-run",
+            json_spec=_JSON_SPEC
         )
 
         databricks.SubmitRunOp.from_file_name(
-            name = "submitrun",
-            run_name = "test-run",
-            file_name = "run_spec.json"
+            name="submitrun",
+            run_name="test-run",
+            file_name="run_spec.json"
         )
     """
 

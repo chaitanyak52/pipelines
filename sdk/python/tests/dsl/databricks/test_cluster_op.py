@@ -142,7 +142,7 @@ class TestDeleteClusterOp(unittest.TestCase):
 
             res = DeleteClusterOp(
                 name="deletecluster",
-                cluster_id="test-cluster"
+                cluster_name="test-cluster"
             )
 
             self.assertEqual(res.name, "deletecluster")

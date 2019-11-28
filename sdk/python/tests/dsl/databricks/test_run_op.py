@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 import kfp
 from kfp.dsl import PipelineParam
-from kfp.dsl.databricks import SubmitRunOp
+from kfp.dsl.databricks import SubmitRunOp, DeleteRunOp
 
 class TestSubmitRunOp(unittest.TestCase):
 
@@ -359,6 +359,29 @@ class TestSubmitRunOp(unittest.TestCase):
         self.assertEqual(res.k8s_resource["metadata"]["name"], "test-run")
         self.assertEqual(res.k8s_resource["spec"], expected_spec)
 
+class TestDeleteRunOp(unittest.TestCase):
+
+    def test_databricks_delete_run(self):
+        def my_pipeline():
+
+            res = DeleteRunOp(
+                name="deleterun",
+                run_name="test-run"
+            )
+
+            self.assertEqual(res.name, "deleterun")
+            self.assertEqual(res.resource.action, "delete")
+            self.assertEqual(res.resource.success_condition, None)
+            self.assertEqual(res.resource.failure_condition, None)
+            self.assertEqual(res.resource.manifest, None)
+            self.assertEqual(res.attribute_outputs, {})
+            self.assertEqual(res.outputs, {})
+            self.assertEqual(res.output, None)
+            self.assertEqual(res.dependent_names, [])
+            self.assertEqual(res.k8s_resource["kind"], "Run")
+            self.assertEqual(res.k8s_resource["metadata"]["name"], "test-run")
+
+        kfp.compiler.Compiler()._compile(my_pipeline)
+
 if __name__ == '__main__':
     unittest.main()
-    

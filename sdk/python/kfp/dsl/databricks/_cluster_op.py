@@ -170,13 +170,14 @@ class DeleteClusterOp(ResourceOp):
 
         databricks.DeleteClusterOp(
             name="deletecluster",
-            cluster_id="test-cluster"
+            cluster_name="test-cluster"
         )
     """
 
     def __init__(self,
                  name: str = None,
-                 cluster_id: str = None):
+                 k8s_name: str = None,
+                 cluster_name: str = None):
         """Create a new instance of DeleteClusterOp.
 
         Args:
@@ -184,23 +185,30 @@ class DeleteClusterOp(ResourceOp):
             name: The name of the pipeline op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generate a new unique name in case of a conflict.
-            cluster_id: The cluster to be terminated.
+            k8s_name = The name of the k8s resource which will be submitted to the cluster.
+                If no k8s_name is provided, cluster_name will be used as the resource name.
+                This name is DNS-1123 subdomain name and must consist of lower case alphanumeric
+                characters, '-' or '.', and must start and end with an alphanumeric character.
+            cluster_name: The name of the cluster.
+                If k8s_name is provided, this will be ignored.
 
         Raises:
 
-            ValueError: If no cluster id is provided
+            ValueError: If no k8s resource name or Cluster name are provided.
         """
 
-        if not cluster_id:
-            raise ValueError("You need to provide a cluster_id.")
+        if not k8s_name and cluster_name:
+            k8s_name = cluster_name
+        elif not k8s_name:
+            raise ValueError("You need to provide a k8s_name or a cluster_name.")
 
         super().__init__(
             k8s_resource={
                 "apiVersion": "databricks.microsoft.com/v1alpha1",
                 "kind": "Dcluster",
                 "metadata": {
-                    "name": cluster_id,
-                },
+                    "name": k8s_name
+                }
             },
             action="delete",
             name=name)

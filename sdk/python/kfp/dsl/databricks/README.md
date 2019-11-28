@@ -7,11 +7,12 @@ https://github.com/microsoft/azure-databricks-operator).
 
 These are the supported Ops up to date:
 
-- CreateClusterOp, to create a Databricks cluster in Databricks.
-- DeleteClusterOp, to delete a Databricks cluster from Databricks.
+- CreateClusterOp, to create a cluster in Databricks.
+- DeleteClusterOp, to delete an existing cluster from Databricks.
 - CreateJobOp, to create a Spark Job in Databricks.
-- DeleteJobOp, to delete a Spark Job from Databricks.
-- SubmitRunOp, to submit a one-time Job Run in Databricks.
+- DeleteJobOp, to delete an existing Spark Job from Databricks.
+- SubmitRunOp, to submit a one-time Run in Databricks.
+- DeleteRunOp, to delete an existing Run.
 
 We can create the Ops by using the complete Databricks spec as a Python dictionary or its individual
 parts as named parameters (not supported by Job Ops yet). SubmitRunOp also 
@@ -40,7 +41,7 @@ import kfp.dsl.databricks as databricks
     description="A toy pipeline that computes an approximation to pi with Databricks."
 )
 def calc_pipeline(run_name="test-run", parameter="10"):
-    databricks.SubmitRunOp(
+    submit_run_task = databricks.SubmitRunOp(
         name="submitrun",
         run_name=run_name,
         new_cluster={
@@ -54,6 +55,12 @@ def calc_pipeline(run_name="test-run", parameter="10"):
             "parameters": [parameter]
         }
     )
+
+    delete_run_task = databricks.DeleteRunOp(
+        name="deleterun",
+        run_name=run_name
+    )
+    delete_run_task.after(submit_run_task)    
 ```
 
 This sample is based on the following article: [Create a spark-submit job](

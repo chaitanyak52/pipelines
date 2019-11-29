@@ -5,7 +5,14 @@ from kfp.dsl.databricks import CreateJobOp, DeleteJobOp
 
 class TestCreateJobOp(unittest.TestCase):
 
-    def test_databricks_create_job(self):
+    # TODO - test_databricks_create_job_without_k8s_or_run_name
+    # TODO - test_databricks_create_job_with_new_cluster_and_spark_jar_task
+    # TODO - test_databricks_create_job_with_new_cluster_and_spark_python_task
+    # TODO - test_databricks_create_job_with_new_cluster_and_spark_submit_task
+    # TODO - test_databricks_create_job_with_existing_cluster_and_notebook_task
+    # TODO - test_databricks_create_job_with_spec_and_extra_args
+
+    def test_databricks_create_job_with_spec(self):
         def my_pipeline():
             spec = {
                 "new_cluster" : {
@@ -68,7 +75,7 @@ class TestCreateJobOp(unittest.TestCase):
             )
             self.assertEqual(res.dependent_names, [])
             self.assertEqual(res.k8s_resource["kind"], "Djob")
-            self.assertRegex(res.k8s_resource["metadata"]["name"], "^test-job-*")
+            self.assertEqual(res.k8s_resource["metadata"]["name"], "test-job")
             self.assertEqual(res.k8s_resource["spec"], spec)
 
         kfp.compiler.Compiler()._compile(my_pipeline)
@@ -80,7 +87,7 @@ class TestDeleteJobOp(unittest.TestCase):
 
             res = DeleteJobOp(
                 name="deletejob",
-                job_name="test-job-1572540532.376594"
+                job_name="test-job"
             )
 
             self.assertEqual(res.name, "deletejob")
@@ -93,7 +100,7 @@ class TestDeleteJobOp(unittest.TestCase):
             self.assertEqual(res.output, None)
             self.assertEqual(res.dependent_names, [])
             self.assertEqual(res.k8s_resource["kind"], "Djob")
-            self.assertEqual(res.k8s_resource["metadata"]["name"], "test-job-1572540532.376594")
+            self.assertEqual(res.k8s_resource["metadata"]["name"], "test-job")
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 

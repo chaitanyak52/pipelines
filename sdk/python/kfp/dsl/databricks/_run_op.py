@@ -103,7 +103,7 @@ class SubmitRunOp(ResourceOp):
                 This name is DNS-1123 subdomain name and must consist of lower case alphanumeric
                 characters, '-' or '.', and must start and end with an alphanumeric character.
             run_name: A name for the Run.
-            spec: Full specification of the Spark run to submit.
+            spec: Full specification of the Run to submit.
             existing_cluster_id: The ID of an existing cluster that will be used for all runs of
                 this job.
             new_cluster: A description of a cluster that will be created for each run

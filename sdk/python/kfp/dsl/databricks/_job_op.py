@@ -1,7 +1,7 @@
 from .._resource_op import ResourceOp
 
 class CreateJobOp(ResourceOp):
-    """Represents an op which will be translated into a Databricks Spark Job creation
+    """Represents an Op which will be translated into a Databricks Spark Job creation
     resource template.
 
     Example:
@@ -48,7 +48,7 @@ class CreateJobOp(ResourceOp):
 
         Args:
 
-            name: the name of the op. It does not have to be unique within a pipeline
+            name: the name of the Op. It does not have to be unique within a pipeline
                 because the pipeline will generate a new unique name in case of a conflict.
             job_name: the name of the Spark Job.
             spec: Specification of the Spark job to create.
@@ -92,7 +92,7 @@ class CreateJobOp(ResourceOp):
         return self._resource
 
 class DeleteJobOp(ResourceOp):
-    """Represents an op which will be translated into a Databricks Spark Job deletion
+    """Represents an Op which will be translated into a Databricks Spark Job deletion
     resource template.
 
     Example:
@@ -112,7 +112,7 @@ class DeleteJobOp(ResourceOp):
 
         Args:
 
-            name: the name of the op. It does not have to be unique within a pipeline
+            name: the name of the Op. It does not have to be unique within a pipeline
                 because the pipeline will generate a new unique name in case of a conflict.
             job_name: the name of the Spark Job.
 

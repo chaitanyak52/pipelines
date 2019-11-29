@@ -1,7 +1,7 @@
 from .._resource_op import ResourceOp
 
 class CreateClusterOp(ResourceOp):
-    """Represents an op which will be translated into a Databricks Cluster creation resource
+    """Represents an Op which will be translated into a Databricks Cluster creation resource
     template.
 
     Examples:
@@ -65,7 +65,7 @@ class CreateClusterOp(ResourceOp):
 
         Args:
 
-            name: The name of the pipeline op.
+            name: The name of the pipeline Op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generate a new unique name in case of a conflict.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.
@@ -161,7 +161,7 @@ class CreateClusterOp(ResourceOp):
         return self._resource
 
 class DeleteClusterOp(ResourceOp):
-    """Represents an op which will be translated into a Databricks Cluster deletion resource
+    """Represents an Op which will be translated into a Databricks Cluster deletion resource
     template.
 
     Example:
@@ -182,7 +182,7 @@ class DeleteClusterOp(ResourceOp):
 
         Args:
 
-            name: The name of the pipeline op.
+            name: The name of the pipeline Op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generate a new unique name in case of a conflict.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.

@@ -3,7 +3,7 @@ import json
 from .._resource_op import ResourceOp
 
 class SubmitRunOp(ResourceOp):
-    """Represents an op which will be translated into a Databricks Run submission
+    """Represents an Op which will be translated into a Databricks Run submission
     resource template.
 
     Examples:
@@ -95,7 +95,7 @@ class SubmitRunOp(ResourceOp):
 
         Args:
 
-            name: The name of the pipeline op.
+            name: The name of the pipeline Op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generate a new unique name in case of a conflict.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.
@@ -182,7 +182,7 @@ class SubmitRunOp(ResourceOp):
 
         Args:
 
-            name: The name of the op.
+            name: The name of the Op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generates a unique new name in case of conflicts.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.
@@ -204,7 +204,7 @@ class SubmitRunOp(ResourceOp):
 
         Args:
 
-            name: The name of the op.
+            name: The name of the Op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generates a unique new name in case of conflicts.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.
@@ -229,7 +229,7 @@ class SubmitRunOp(ResourceOp):
         return self._resource
 
 class DeleteRunOp(ResourceOp):
-    """Represents an op which will be translated into a Databricks Run deletion resource
+    """Represents an Op which will be translated into a Databricks Run deletion resource
     template.
 
     Example:
@@ -250,7 +250,7 @@ class DeleteRunOp(ResourceOp):
 
         Args:
 
-            name: The name of the pipeline op.
+            name: The name of the pipeline Op.
                 It does not have to be unique within a pipeline
                 because the pipeline will generate a new unique name in case of a conflict.
             k8s_name = The name of the k8s resource which will be submitted to the cluster.

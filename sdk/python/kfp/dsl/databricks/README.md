@@ -1,9 +1,10 @@
 # Introduction to Databricks DSL 
 
 Databricks DSL provides a set of [Kubeflow Pipeline](https://www.kubeflow.org/docs/pipelines/) Tasks
-(Ops) which let us manipulate [Azure Databricks](https://azure.microsoft.com/services/databricks/) 
+(Ops) which let us manipulate [Databricks](https://azure.microsoft.com/services/databricks/) 
 resources using the [Azure Databricks Operator for Kubernetes](
-https://github.com/microsoft/azure-databricks-operator).
+https://github.com/microsoft/azure-databricks-operator). This makes the user experience much nicer,
+and less error prone, than using the ResourceOp to manipulate these Databricks resources.
 
 These are the supported Ops up to date:
 
@@ -14,10 +15,11 @@ These are the supported Ops up to date:
 - SubmitRunOp, to submit a one-time Run in Databricks.
 - DeleteRunOp, to delete an existing Run.
 
-We can create the Ops by using the complete Databricks spec as a Python dictionary or its individual
-parts as named parameters (not supported by Job Ops yet). SubmitRunOp also 
-provides 2 helper methods to create the Op by using a json string containing the spec or a file name
-containing the spec in json format.
+For each of these there are two ways a Kubeflow user can create the Ops:
+1) By passing the complete Databricks spec for the Op within a Python Dictionary
+2) By using named parameters
+
+SubmitRunOp also provides 2 helper methods to create the Op by using a json string containing the spec or a file name containing the spec in json format.
 
 ## Setup
 

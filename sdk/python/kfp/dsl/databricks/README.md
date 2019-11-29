@@ -21,7 +21,8 @@ For each of these there are two ways a Kubeflow user can create the Ops:
 1) By passing the complete Databricks spec for the Op within a Python Dictionary
 2) By using named parameters
 
-SubmitRunOp also provides 2 helper methods to create the Op by using a json string containing the spec or a file name containing the spec in json format.
+SubmitRunOp also provides 2 helper methods to create the Op by using a json string containing the 
+spec or a file name containing the spec in json format.
 
 ## Setup
 

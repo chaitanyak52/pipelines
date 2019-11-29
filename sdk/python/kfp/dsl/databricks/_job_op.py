@@ -182,13 +182,11 @@ class CreateJobOp(ResourceOp):
                 "spec": spec
             },
             action="create",
-            # TODO - Review sucess_condition
             success_condition="status.job_status.job_id > 0",
-            # TODO - Review outputs
             attribute_outputs={
-                "name": "{.status.job_status.job_id}",
+                "name": "{.metadata.name}",
                 "job_id": "{.status.job_status.job_id}",
-                "job_name": "{.metadata.name}"
+                "job_name": "{.status.job_status.settings.name}"
             },
             name=name)
 

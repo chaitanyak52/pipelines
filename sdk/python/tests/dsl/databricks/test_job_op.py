@@ -321,9 +321,9 @@ class TestCreateJobOp(unittest.TestCase):
         self.assertEqual(res.resource.failure_condition, None)
         self.assertEqual(res.resource.manifest, None)
         expected_attribute_outputs = {
-            "name": "{.status.job_status.job_id}",
+            "name": "{.metadata.name}",
             "job_id": "{.status.job_status.job_id}",
-            "job_name": "{.metadata.name}",
+            "job_name": "{.status.job_status.settings.name}",
             "manifest": "{}"
         }
         self.assertEqual(res.attribute_outputs, expected_attribute_outputs)

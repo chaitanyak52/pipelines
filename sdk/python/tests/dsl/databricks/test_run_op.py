@@ -325,7 +325,9 @@ class TestSubmitRunOp(unittest.TestCase):
         self.assertEqual(res.resource.failure_condition, None)
         self.assertEqual(res.resource.manifest, None)
         expected_attribute_outputs = {
-            "name": "job-{.status.metadata.job_id}-run-{.status.metadata.number_in_job}",
+            "name": "{.metadata.name}",
+            "job_id": "{.status.metadata.job_id}",
+            "number_in_job": "{.status.metadata.number_in_job}",
             "run_id": "{.status.metadata.run_id}",
             "run_name": "{.status.metadata.run_name}",
             "life_cycle_state": "{.status.metadata.state.life_cycle_state}",
@@ -338,6 +340,8 @@ class TestSubmitRunOp(unittest.TestCase):
         self.assertEqual(res.attribute_outputs, expected_attribute_outputs)
         expected_outputs = {
             "name": PipelineParam(name="name", op_name=res.name),
+            "job_id": PipelineParam(name="job_id", op_name=res.name),
+            "number_in_job": PipelineParam(name="number_in_job", op_name=res.name),
             "run_id": PipelineParam(name="run_id", op_name=res.name),
             "run_name": PipelineParam(name="run_name", op_name=res.name),
             "life_cycle_state": PipelineParam(name="life_cycle_state", op_name=res.name),

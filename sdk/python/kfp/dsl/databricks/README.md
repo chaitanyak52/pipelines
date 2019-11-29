@@ -4,7 +4,9 @@ Databricks DSL provides a set of [Kubeflow Pipeline](https://www.kubeflow.org/do
 (Ops) which let us manipulate [Databricks](https://azure.microsoft.com/services/databricks/) 
 resources using the [Azure Databricks Operator for Kubernetes](
 https://github.com/microsoft/azure-databricks-operator). This makes the user experience much nicer,
-and less error prone, than using the ResourceOp to manipulate these Databricks resources.
+and less error prone, than using the [ResourceOp](
+https://www.kubeflow.org/docs/pipelines/sdk/manipulate-resources/#resourceop) to manipulate
+these Databricks resources.
 
 These are the supported Ops up to date:
 

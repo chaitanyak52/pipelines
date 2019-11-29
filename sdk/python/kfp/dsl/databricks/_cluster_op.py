@@ -143,8 +143,7 @@ class CreateClusterOp(ResourceOp):
                 "spec": spec,
             },
             action="create",
-            success_condition=("status.cluster_info.state in "
-                               "(RUNNING, TERMINATED, UNKNOWN)"),
+            success_condition="status.cluster_info.state in (RUNNING, TERMINATED, UNKNOWN)",
             attribute_outputs={
                 "name": "{.metadata.name}",
                 "cluster_id": "{.status.cluster_info.cluster_id}",

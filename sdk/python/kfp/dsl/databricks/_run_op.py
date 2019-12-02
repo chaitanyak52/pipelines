@@ -59,10 +59,15 @@ class SubmitRunOp(ResourceOp):
             existing_cluster_id="cluster-id",
             spark_python_task={
                 "python_file": "dbfs:/docs/pi.py",
-                "parameters": [
-                    "10"
-                ]
+                "parameters": ["10"]
             }
+        )
+
+        databricks.SubmitRunOp(
+            name="submitrun",
+            run_name="test-run",
+            job_name="test-job",
+            jar_params=["param1", "param2"]
         )
 
         databricks.SubmitRunOp.from_json_spec(
@@ -83,6 +88,11 @@ class SubmitRunOp(ResourceOp):
                  k8s_name: str = None,
                  run_name: str = None,
                  spec: {}=None,
+                 job_name: str = None,
+                 jar_params: {}=None,
+                 python_params: {}=None,
+                 spark_submit_params: {}=None,
+                 notebook_params: {}=None,
                  existing_cluster_id: str = None,
                  new_cluster: {}=None,
                  libraries: {}=None,
@@ -104,6 +114,11 @@ class SubmitRunOp(ResourceOp):
                 characters, '-' or '.', and must start and end with an alphanumeric character.
             run_name: A name for the Run.
             spec: Full specification of the Run to submit.
+            job_name: The name of an existing Job to run.
+            jar_params: A list of parameters for jobs with JAR task.
+            python_params: A list of parameters for jobs with Python tasks.
+            spark_submit_params: A list of parameters for jobs with spark submit task.
+            notebook_params: A map from keys to values for jobs with notebook task.
             existing_cluster_id: The ID of an existing cluster that will be used for all runs of
                 this job.
             new_cluster: A description of a cluster that will be created for each run
@@ -126,6 +141,16 @@ class SubmitRunOp(ResourceOp):
 
         if run_name:
             spec["run_name"] = run_name
+        if job_name:
+            spec["job_name"] = job_name
+        if jar_params:
+            spec["jar_params"] = jar_params
+        if python_params:
+            spec["python_params"] = python_params
+        if spark_submit_params:
+            spec["spark_submit_params"] = spark_submit_params
+        if notebook_params:
+            spec["notebook_params"] = notebook_params
         if new_cluster:
             spec["new_cluster"] = new_cluster
         if existing_cluster_id:

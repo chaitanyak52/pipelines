@@ -26,11 +26,106 @@ class TestSubmitRunOp(unittest.TestCase):
 
         self.assertRaises(ValueError, lambda: kfp.compiler.Compiler()._compile(my_pipeline))
 
+    def test_databricks_submit_run_with_job_name_and_jar_params(self):
+        def my_pipeline():
+            run_name = "test-run"
+            job_name = "test-job"
+            jar_params = ["param1", "param2"]
+
+            expected_spec = {
+                "run_name": run_name,
+                "job_name": job_name,
+                "jar_params": jar_params
+            }
+
+            res = SubmitRunOp(
+                name="submitrun",
+                run_name=run_name,
+                job_name=job_name,
+                jar_params=jar_params
+            )
+
+            self.assert_res(res, expected_spec)
+
+        kfp.compiler.Compiler()._compile(my_pipeline)
+
+    def test_databricks_submit_run_with_job_name_and_python_params(self):
+        def my_pipeline():
+            run_name = "test-run"
+            job_name = "test-job"
+            python_params = ["john doe", "35"]
+
+            expected_spec = {
+                "run_name": run_name,
+                "job_name": job_name,
+                "python_params": python_params
+            }
+
+            res = SubmitRunOp(
+                name="submitrun",
+                run_name=run_name,
+                job_name=job_name,
+                python_params=python_params
+            )
+
+            self.assert_res(res, expected_spec)
+
+        kfp.compiler.Compiler()._compile(my_pipeline)
+
+    def test_databricks_submit_run_with_job_name_and_spark_submit_params(self):
+        def my_pipeline():
+            run_name = "test-run"
+            job_name = "test-job"
+            spark_submit_params = ["--class", "org.apache.spark.examples.SparkPi"]
+
+            expected_spec = {
+                "run_name": run_name,
+                "job_name": job_name,
+                "spark_submit_params": spark_submit_params
+            }
+
+            res = SubmitRunOp(
+                name="submitrun",
+                run_name=run_name,
+                job_name=job_name,
+                spark_submit_params=spark_submit_params
+            )
+
+            self.assert_res(res, expected_spec)
+
+        kfp.compiler.Compiler()._compile(my_pipeline)        
+
+    def test_databricks_submit_run_with_job_name_and_notebook_params(self):
+        def my_pipeline():
+            run_name = "test-run"
+            job_name = "test-job"
+            notebook_params = {
+                "dry-run": "true",
+                "oldest-time-to-consider": "1457570074236"
+            }
+
+            expected_spec = {
+                "run_name": run_name,
+                "job_name": job_name,
+                "notebook_params": notebook_params
+            }
+
+            res = SubmitRunOp(
+                name="submitrun",
+                run_name=run_name,
+                job_name=job_name,
+                notebook_params=notebook_params
+            )
+
+            self.assert_res(res, expected_spec)
+
+        kfp.compiler.Compiler()._compile(my_pipeline)        
+
     def test_databricks_submit_run_with_new_cluster_and_spark_jar_task(self):
         def my_pipeline():
             run_name = "test-run"
             new_cluster = {
-                "spark_version":"5.3.x-scala2.11",
+                "spark_version": "5.3.x-scala2.11",
                 "node_type_id": "Standard_D3_v2",
                 "num_workers": 2
             }
@@ -46,7 +141,7 @@ class TestSubmitRunOp(unittest.TestCase):
                 "run_name": run_name,
                 "new_cluster": new_cluster,
                 "libraries": libraries,
-                "spark_jar_task":spark_jar_task
+                "spark_jar_task": spark_jar_task
             }
 
             res = SubmitRunOp(
@@ -79,7 +174,7 @@ class TestSubmitRunOp(unittest.TestCase):
             expected_spec = {
                 "run_name": run_name,
                 "new_cluster": new_cluster,
-                "spark_python_task":spark_python_task
+                "spark_python_task": spark_python_task
             }
 
             res = SubmitRunOp(

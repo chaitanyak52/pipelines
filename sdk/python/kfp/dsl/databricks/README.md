@@ -14,7 +14,7 @@ These are the supported Ops up to date:
 - DeleteClusterOp, to delete an existing cluster from Databricks.
 - CreateJobOp, to create a Spark Job in Databricks.
 - DeleteJobOp, to delete an existing Spark Job from Databricks.
-- SubmitRunOp, to submit a one-time Run in Databricks.
+- SubmitRunOp, to submit a Job Run in Databricks.
 - DeleteRunOp, to delete an existing Run.
 
 For each of these there are two ways a Kubeflow user can create the Ops:

@@ -93,7 +93,7 @@ class TestSubmitRunOp(unittest.TestCase):
 
             self.assert_res(res, expected_spec)
 
-        kfp.compiler.Compiler()._compile(my_pipeline)        
+        kfp.compiler.Compiler()._compile(my_pipeline)
 
     def test_databricks_submit_run_with_job_name_and_notebook_params(self):
         def my_pipeline():
@@ -119,7 +119,7 @@ class TestSubmitRunOp(unittest.TestCase):
 
             self.assert_res(res, expected_spec)
 
-        kfp.compiler.Compiler()._compile(my_pipeline)        
+        kfp.compiler.Compiler()._compile(my_pipeline)
 
     def test_databricks_submit_run_with_new_cluster_and_spark_jar_task(self):
         def my_pipeline():

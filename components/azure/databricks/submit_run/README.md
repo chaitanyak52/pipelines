@@ -9,15 +9,10 @@ Requirements:
 
 ## Test
 
-1) Test program locally
-    ```
-    python ./src/program.py
-    ```
-2) Build component image
+1) Build component image
     ```
     bash build_image.sh
     ```
-    It will output image name like alejacma/databricks_submit_run@sha256:ad87aedb2cd3b16505e25a326a0e9324cb34315c2f06064fab4958888ba313a1.
-3) Use image name in component.yaml.
-4) Build, upload and run pipeline:
+    This will update the image name in component.yaml.
+2) Build, upload and run pipeline:
     bash compile_upload_run.sh --kubeflow-host http://localhost:8080 --pipeline-name pipeline

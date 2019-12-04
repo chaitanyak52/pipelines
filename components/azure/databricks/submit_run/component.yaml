@@ -1,16 +1,21 @@
-name: Do dummy work
-description: Performs some dummy work.
+name: submit_run
+description: Submits a Databricks Run
 inputs:
-- {name: Input_1, type: GCSPath, description: 'Data for Input 1'}
-- {name: Parameter_1, type: Integer, default: '100', description: 'Parameter 1 description'} # The default values must be specified as YAML strings.
+  - {name: run_name,       type: String,      description: ''}
+  - {name: new_cluster,    type: JsonObject,  description: ''}
+  - {name: libraries,      type: JsonObject,  description: ''}
+  - {name: spark_jar_task, type: JsonObject,  description: ''}
 outputs:
-- {name: Output_1, description: 'Output 1 data'}
+  - {name: run_id,         type: String,  description: ''}
 implementation:
   container:
-    image: alejacma/databricks_submit_run@sha256:fc892b2d43ffc8a959360869e8c438624a047c6789795960d98b2566a23721f6
+    image: alejacma/databricks_submit_run@sha256:af5ea9a5f9c3d78e8809e9b5bf7ea0c59b55c5ec44c45cec9b702d05062e2b46
     command: [
       python3, /pipelines/component/src/program.py,
-      --input1-path,  {inputPath:  Input_1},
-      --param1,       {inputValue: Parameter_1},
-      --output1-path, {outputPath: Output_1},
+      --run_name,       {inputValue: run_name},
+      --new_cluster,    {inputValue: new_cluster},
+      --libraries,      {inputValue: libraries},
+      --spark_jar_task, {inputValue: spark_jar_task}
     ]
+    fileOutputs:
+      run_id: /run_id

@@ -1,57 +1,65 @@
 #!/usr/bin/env python3
+import logging
 import argparse
-from pprint import pprint
+import json
 from kubernetes import client, config
 from kubernetes.client.rest import ApiException
 
-# Function doing the actual work (Outputs first N lines from a text file)
-def do_work():
+def parse_args():
+    logging.info("Parsing args...")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--run_name', type=str)
+    parser.add_argument('--new_cluster', type=json.loads)
+    parser.add_argument('--libraries', type=json.loads)
+    parser.add_argument('--spark_jar_task', type=json.loads)
+    args = parser.parse_args()
+    logging.debug(args)
+    return args
 
-    run_name = "test-run"
-    parameter = "10"
+def create_namespaced_custom_object_spec(args):
+    logging.info("Preparing custom object spec...")
+    spec = {}
+    spec["run_name"] = args.run_name
+    spec["new_cluster"] = args.new_cluster
+    spec["libraries"] = args.libraries
+    spec["spark_jar_task"] = args.spark_jar_task
+    logging.debug(spec)
+    return spec
+
+def create_namespaced_custom_object(k8s_name, spec):
+
+    logging.info("Loading in-cluster config...")
+    config.load_incluster_config()
     api = client.CustomObjectsApi()
 
     try:
+        logging.info("Creating custom object...")
         api_response = api.create_namespaced_custom_object(
             group="databricks.microsoft.com",
             version="v1alpha1",
-            namespace="kubeflow",
+            namespace="kubeflow", # TODO - Accept namespace as a parameter
             plural="runs",
             body={
                 "apiVersion": "databricks.microsoft.com/v1alpha1",
                 "kind": "Run",
-                "metadata": {"name": run_name},
-                "spec": {
-                    "new_cluster": {
-                        "spark_version": "5.3.x-scala2.11",
-                        "node_type_id": "Standard_D3_v2",
-                        "num_workers": 10,
-                    },
-                    "libraries": [
-                        {
-                            "jar": "dbfs:/my-jar.jar",
-                            "maven": {"coordinates": "org.jsoup:jsoup:1.7.2"},
-                        }
-                    ],
-                    "spark_jar_task": {"main_class_name": "com.databricks.ComputeModels"},
-                },
+                "metadata": {"name": k8s_name},
+                "spec": spec,
             },
             pretty="true"
         )
-        pprint(api_response)
+        logging.debug(api_response)
+
+        logging.info("Writing output...")
+        with open("run_id", 'w') as run_id:
+            run_id.write("test")
+
+        logging.info("Work done!")
+
     except ApiException as ex:
-        print("Exception when calling ApiextensionsV1beta1Api->create_custom_resource_definition: %s\n" % ex)  
+        logging.error("Exception when calling CustomObjectsApi->create_namespaced_custom_object: %s\n", ex)
 
-# Defining and parsing the command-line arguments
-parser = argparse.ArgumentParser(description='My program description')
-parser.add_argument('--input1-path', type=str, help='Path of the local file containing the Input 1 data.') # Paths should be passed in, not hardcoded
-parser.add_argument('--param1', type=int, default=100, help='Parameter 1.')
-parser.add_argument('--output1-path', type=str, help='Path of the local file where the Output 1 data should be written.') # Paths should be passed in, not hardcoded
-args = parser.parse_args()
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
-print("loading config")
-#config.load_kube_config()
-config.load_incluster_config()
-print("doing work")
-do_work()
-print("done")
+ARGS = parse_args()
+SPEC = create_namespaced_custom_object_spec(ARGS)
+create_namespaced_custom_object(ARGS.run_name, SPEC)

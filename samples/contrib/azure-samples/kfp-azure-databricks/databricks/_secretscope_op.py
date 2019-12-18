@@ -129,9 +129,11 @@ class CreateSecretScopeOp(ResourceOp):
                 "spec": spec
             },
             action="create",
-            success_condition="status.secretinclusteravailable == true",
+            success_condition="status.secretscope.name",
             attribute_outputs={
                 "name": "{.metadata.name}",
+                "secretscope_name": "{.status.secretscope.name}",
+                "secretscope_backend_type": "{.status.secretscope.backend_type}",
                 "secret_in_cluster_available": "{.status.secretinclusteravailable}"
             },
             name=name)

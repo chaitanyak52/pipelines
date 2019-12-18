@@ -320,18 +320,24 @@ class TestCreateSecretScopeOp(unittest.TestCase):
         self.assertEqual(res.resource.action, "create")
         self.assertEqual(
             res.resource.success_condition,
-            "status.secretinclusteravailable == true"
+            "status.secretscope.name"
         )
         self.assertEqual(res.resource.failure_condition, None)
         self.assertEqual(res.resource.manifest, None)
         expected_attribute_outputs = {
             "name": "{.metadata.name}",
+            "secretscope_name": "{.status.secretscope.name}",
+            "secretscope_backend_type": "{.status.secretscope.backend_type}",
             "secret_in_cluster_available": "{.status.secretinclusteravailable}",
             "manifest": "{}"
         }
         self.assertEqual(res.attribute_outputs, expected_attribute_outputs)
         expected_outputs = {
             "name": PipelineParam(name="name", op_name=res.name),
+            "secretscope_name":
+                PipelineParam(name="secretscope_name", op_name=res.name),
+            "secretscope_backend_type":
+                PipelineParam(name="secretscope_backend_type", op_name=res.name),
             "secret_in_cluster_available":
                 PipelineParam(name="secret_in_cluster_available", op_name=res.name),
             "manifest": PipelineParam(name="manifest", op_name=res.name)

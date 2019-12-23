@@ -2,6 +2,9 @@ val param1 = dbutils.widgets.get("param1")
 val param2 = dbutils.widgets.get("param2")
 var output = s"param1 = $param1, param2 = $param2"
 
+val txt = dbutils.fs.head("/data/foo.txt")
+output = s"$output, foo.txt exists and contains '$txt'"
+
 val string_secret = dbutils.secrets.get(scope = "test-scope", key = "string-secret")
 if (string_secret == "helloworld") {
   output = s"$output, string-secret is correct"

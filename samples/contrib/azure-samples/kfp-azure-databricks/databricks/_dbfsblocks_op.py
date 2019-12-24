@@ -13,20 +13,17 @@ class CreateDbfsBlockOp(ResourceOp):
             name="createdbfsblock",
             block_name="test-item",
             spec={
-                "content": "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
-                "path": "/Users/alejacma@microsoft.com/ScalaExampleNotebook",
-                "language": "SCALA",
-                "format": "SOURCE"
+                "data": "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
+                "path": "/data/foo.txt",
             }
         )
 
         databricks.CreateDbfsBlockOp(
             name="createdbfsblock",
             block_name="test-item",
-            content="cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
-            path="/Users/alejacma@microsoft.com/ScalaExampleNotebook",
-            language="SCALA",
-            file_format="SOURCE"
+            data="cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
+            path="/data/foo.txt",
+            
         )
     """
 
@@ -144,7 +141,7 @@ class CreateDbfsBlockOp(ResourceOp):
         """
 
         spec = json.loads(open(file_name).read())
-        return cls(name=name, k8s_name=k8s_name, item_name=block_name, spec=spec)
+        return cls(name=name, k8s_name=k8s_name, block_name=block_name, spec=spec)
 
     @property
     def resource(self):

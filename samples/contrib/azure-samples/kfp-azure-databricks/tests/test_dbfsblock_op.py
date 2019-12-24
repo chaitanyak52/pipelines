@@ -9,7 +9,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
     def test_databricks_createdbfsblock_without_k8s_or_block_name(self):
         def my_pipeline():
             CreateDbfsBlockOp(
-                name="testdbfsblock",
+                name="createdbfsitem",
                 data="cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
                 path="/Users/alejacma@microsoft.com/ScalaExampleNotebook"
             )
@@ -18,7 +18,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
 
     def test_databricks_createdbfsblock(self):
         def my_pipeline():
-            block_name = "test-item"
+            block_name = "createdbfsitem"
             data = "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK"
             path = "/Users/alejacma@microsoft.com/ScalaExampleNotebook"
             
@@ -41,7 +41,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
 
     def test_databricks_createdbfsblock_with_spec(self):
         def my_pipeline():
-            block_name = "test-item"
+            block_name = "createdbfsitem"
             spec = {
                 "data": "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
                 "path": "/Users/alejacma@microsoft.com/ScalaExampleNotebook"          
@@ -59,7 +59,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
 
     def test_databricks_createdbfsblock_with_spec_and_extra_args(self):
         def my_pipeline():
-            block_name = "test-item"
+            block_name = "createdbfsitem"
             content = "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK"
             spec = {
                 "path": "/Users/alejacma@microsoft.com/ScalaExampleNotebook"
@@ -82,7 +82,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
 
     def test_databricks_createdbfsblock_with_json_spec(self):
         def my_pipeline():
-            block_name = "test-item"
+            block_name = "createdbfsitem"
             json_spec = """
             {
                 "data": "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
@@ -98,7 +98,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
             }
 
             res = CreateDbfsBlockOp.from_json_spec(
-                name="dbfsblock",
+                name="createdbfsitem",
                 block_name=block_name,
                 json_spec=json_spec
             )
@@ -109,7 +109,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
 
     def test_databricks_createdbfsblock_with_json_file_spec(self):
         def my_pipeline():
-            block_name = "test-item"
+            block_name = "createdbfsitem"
             current_path = Path(__file__).parent
             json_spec_file_name = current_path.joinpath("dbfsblock_spec.json")
 
@@ -118,7 +118,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
                 "path": "/data/foo.txt"
             }
             res = CreateDbfsBlockOp.from_file_name(
-                name="dbfsblock",
+                name="createdbfsitem",
                 block_name=block_name,
                 file_name=json_spec_file_name
             )
@@ -128,7 +128,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
         kfp.compiler.Compiler()._compile(my_pipeline)
 
     def assert_res(self, res, expected_spec):
-        self.assertEqual(res.name, "dbfsblock")
+        self.assertEqual(res.name, "createdbfsitem")
         self.assertEqual(res.resource.action, "create")
         self.assertEqual(res.resource.success_condition, "status.file_hash")
         self.assertEqual(res.resource.failure_condition, None)

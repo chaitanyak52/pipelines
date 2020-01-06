@@ -11,7 +11,7 @@ def create_dbfsblock(block_name):
     # Op not implemented in Azure Databricks for KFP yet
     return databricks.CreateDbfsBlockOp(
         name="createdbfsblock",
-        item_name=block_name,
+        block_name=block_name,
         data="QWxlamFuZHJvIENhbXBvcyBNYWdlbmNpbw==",
         path="/data/foo.txt"
     )
@@ -122,7 +122,7 @@ def delete_secretscope(scope_name):
 def delete_dbfsblock(block_name):
     # Op not implemented in Azure Databricks for KFP yet
      return databricks.DeleteDbfsBlockOp(
-        name="deletesecretscope",
+        name="deletedbfsblock",
         block_name=block_name
     )
 

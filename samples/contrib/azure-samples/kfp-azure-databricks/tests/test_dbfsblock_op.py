@@ -32,7 +32,8 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
             res = CreateDbfsBlockOp(
                 name="createdbfsitem",
                 block_name=block_name,
-                path=path
+                path=path,
+                data=data
             )
             
             self.assert_res(res, expected_spec)
@@ -62,11 +63,12 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
             block_name = "createdbfsitem"
             content = "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK"
             spec = {
+                "data": content,
                 "path": "/Users/alejacma@microsoft.com/ScalaExampleNotebook"
             }
 
             expected_spec = {
-                "data": "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
+                "data": content,
                 "path": "/Users/alejacma@microsoft.com/ScalaExampleNotebook"
             }
 
@@ -138,7 +140,8 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
             "file_info_path": "{.status.file_info.path}",
             "file_info_is_dir": "{.status.file_info.is_dir}",
             "file_info_file_size": "{.status.file_info.file_size}",
-            "file_hash": "{.status.file_hash}"
+            "file_hash": "{.status.file_hash}",
+            "manifest": "{}"
         }                
         self.assertEqual(res.attribute_outputs, expected_attribute_outputs)
         expected_outputs = {
@@ -156,7 +159,7 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
         )
         self.assertEqual(res.dependent_names, [])
         self.assertEqual(res.k8s_resource["kind"], "DbfsBlock")
-        self.assertEqual(res.k8s_resource["metadata"]["name"], "test-item")
+        self.assertEqual(res.k8s_resource["metadata"]["name"], "createdbfsitem")
         self.assertEqual(res.k8s_resource["spec"], expected_spec)
 
 class TestDeletedbfsblockOp(unittest.TestCase):
@@ -174,7 +177,7 @@ class TestDeletedbfsblockOp(unittest.TestCase):
 
             res = DeleteDbfsBlockOp(
                 name="deletedbfsblock",
-                block_name="test-item"
+                block_name="createdbfsitem"
             )
 
             self.assertEqual(res.name, "deletedbfsblock")
@@ -187,7 +190,7 @@ class TestDeletedbfsblockOp(unittest.TestCase):
             self.assertEqual(res.output, None)
             self.assertEqual(res.dependent_names, [])
             self.assertEqual(res.k8s_resource["kind"], "DbfsBlock")
-            self.assertEqual(res.k8s_resource["metadata"]["name"], "test-item")
+            self.assertEqual(res.k8s_resource["metadata"]["name"], "createdbfsitem")
 
         kfp.compiler.Compiler()._compile(my_pipeline)
 

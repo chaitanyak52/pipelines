@@ -26,7 +26,6 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
             expected_spec = {
                 "path": path,
                 "data": data
-               
             }
 
             res = CreateDbfsBlockOp(
@@ -61,20 +60,20 @@ class TestCreateDbfsBlockOp(unittest.TestCase):
     def test_databricks_createdbfsblock_with_spec_and_extra_args(self):
         def my_pipeline():
             block_name = "createdbfsitem"
-            content = "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK"
+            data = "cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK"
             spec = {
-                "data": content,
                 "path": "/Users/alejacma@microsoft.com/ScalaExampleNotebook"
             }
 
             expected_spec = {
-                "data": content,
+                "data": data,
                 "path": "/Users/alejacma@microsoft.com/ScalaExampleNotebook"
             }
 
             res = CreateDbfsBlockOp(
                 name="createdbfsitem",
                 block_name=block_name,
+                data = data,
                 spec=spec
                 )
 

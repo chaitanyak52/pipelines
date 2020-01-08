@@ -8,7 +8,6 @@ import kfp.compiler as compiler
 import databricks
 
 def create_dbfsblock(block_name):
-    # Op not implemented in Azure Databricks for KFP yet
     return databricks.CreateDbfsBlockOp(
         name="createdbfsblock",
         block_name=block_name,
@@ -120,7 +119,6 @@ def delete_secretscope(scope_name):
     )
 
 def delete_dbfsblock(block_name):
-    # Op not implemented in Azure Databricks for KFP yet
      return databricks.DeleteDbfsBlockOp(
         name="deletedbfsblock",
         block_name=block_name

@@ -23,7 +23,6 @@ class CreateDbfsBlockOp(ResourceOp):
             block_name="test-item",
             data="cHJpbnQoImhlbGxvLCB3b3JsZCIpCgoK",
             path="/data/foo.txt",
-            
         )
     """
 
@@ -50,7 +49,6 @@ class CreateDbfsBlockOp(ResourceOp):
                 This has a limit of 10 MB.
             path: The absolute path of the file.
                 Importing directory is only support for DBC format.
-            
 
         Raises:
 
@@ -78,7 +76,7 @@ class CreateDbfsBlockOp(ResourceOp):
                 "spec": spec
             },
             action="create",
-           success_condition="status.file_hash",
+            success_condition="status.file_hash",
             attribute_outputs={
             "name": "{.metadata.name}",
             "file_info_path": "{.status.file_info.path}",
